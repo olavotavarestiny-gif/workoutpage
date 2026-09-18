@@ -1,0 +1,6 @@
+"use client";
+import Link from "next/link";
+import { Home, LifeBuoy, Play, Trophy } from "lucide-react";
+import { useCademiUser } from "@/lib/cademi";
+export function AppShell({ children, active = "today" }: { children: React.ReactNode; active?: string }) { const user = useCademiUser(); return <div className="app-shell"><header className="topbar"><Link href="/dashboard" className="brand" aria-label="SAMORA WORKOUT"><img src="/images/samorafit-workout-logo.webp" alt="SAMORA WORKOUT" /></Link><p className="tagline">O teu próximo nível começa hoje.</p><div className="avatar" title={user.fullName}>{user.avatar ? <img src={user.avatar} alt={user.fullName} /> : user.firstName.slice(0, 1).toUpperCase()}</div></header><main className="main-content">{children}</main><nav className="bottom-nav" aria-label="Navegação principal"><Nav icon={Home} label="Hoje" href="/dashboard" active={active === "today"} /><Nav icon={Play} label="Treinos" href="/dashboard#recomendados" /><Nav icon={Trophy} label="Progresso" href="/dashboard#progresso" /><Nav icon={LifeBuoy} label="Apoio" href="/dashboard#apoio" /></nav></div>; }
+function Nav({ icon: Icon, label, href, active }: { icon: typeof Home; label: string; href: string; active?: boolean }) { return <Link href={href} className={active ? "nav-item active" : "nav-item"}><Icon size={20} /><span>{label}</span></Link>; }
