@@ -10,7 +10,7 @@ A Cademi mantém autenticação, permissões, módulos, aulas e vídeos. Não h�
 
 As cinco capas reutilizam a captura fornecida em `public/images/cademi-modules-source.png`, com enquadramento CSS individual. São uma solução provisória para a apresentação; não são os ficheiros originais da Cademi. O enquadramento exclui a barra do navegador e o botão de pagamento da captura.
 
-Os endereços privados dos módulos e os ficheiros originais não estão disponíveis no repositório. O acesso público à Cademi apresenta o login. Configurar o campo `url` de cada módulo em `lib/config.ts` com o endereço real obtido na conta autorizada; quando existir, o cartão passa a abrir diretamente o módulo. Até lá, o cartão informa que as aulas estão na Cademi e disponibiliza um botão explicitamente identificado como “Abrir Cademi”. Não são inventadas aulas, contagens ou ligações privadas.
+Os cinco cartões abrem diretamente os endereços reais fornecidos pelo proprietário, pela ordem da referência: Cross Training (1771737), Pernas Top (1771739), Fight Kombat (1771738), Barriga Zero (1771736) e Tabata (1771740). Os URLs estão em `lib/config.ts`. A navegação sai do iframe através de `target="_top"` e a Cademi continua a verificar a sessão e as permissões do aluno. Não são inventadas aulas, contagens ou progresso.
 
 ## Desenvolvimento
 
