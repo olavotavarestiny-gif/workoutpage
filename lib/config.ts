@@ -1,5 +1,21 @@
-export type TrainingPlace = "gym" | "home" | "express";
-export const appConfig = { brand: { name: "SAMORA WORKOUT", red: "#ed1c24" }, cademi: { courseHome: "https://SEU-DOMINIO.cademi.com.br/area", support: "https://SEU-DOMINIO.cademi.com.br/suporte" }, defaults: { firstName: "João", fullName: "João Manuel", progress: 38, day: 12 } };
-export const placeLabels: Record<TrainingPlace, string> = { gym: "Ginásio", home: "Casa", express: "Express" };
-export const workouts = { "peito-triceps": { slug: "peito-triceps", day: 12, title: "Peito + Tríceps", eyebrow: "TREINO DE HOJE", duration: "45–55 min", level: "Intermédio", image: "/images/bruno-fit90-hero.jpg", next: "Pernas + Core", exercises: { gym: [["Supino com halteres", "4 séries · 10–12 reps"], ["Supino inclinado", "3 séries · 10–12 reps"], ["Crossover na polia", "3 séries · 12–15 reps"], ["Tríceps na polia", "4 séries · 12 reps"], ["Tríceps francês", "3 séries · 10–12 reps"]], home: [["Flexão de braços", "4 séries · 8–15 reps"], ["Flexão inclinada", "3 séries · 12 reps"], ["Flexão diamante", "3 séries · 8–12 reps"], ["Mergulho na cadeira", "4 séries · 10–12 reps"], ["Extensão de tríceps", "3 séries · 12 reps"]], express: [["Flexão de braços", "3 séries · 12 reps"], ["Flexão diamante", "3 séries · 10 reps"], ["Mergulho no banco", "3 séries · 12 reps"]] } } } as const;
-export const week = [{ day: "SEG", label: "Pernas", state: "done" }, { day: "TER", label: "Costas", state: "done" }, { day: "QUA", label: "Peito", state: "today" }, { day: "QUI", label: "Mobilidade", state: "next" }, { day: "SEX", label: "Full body", state: "next" }];
+export const appConfig = {
+  cademi: { courseHome: "https://brunosamora.cademi.com.br/" },
+  defaults: { firstName: "", fullName: "" },
+};
+
+export type CourseModule = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  imageX: number;
+  // Set the real Cademi module URL when available. Never infer private routes.
+  url: string | null;
+};
+
+export const modules: CourseModule[] = [
+  { slug: "cross-training", title: "Cross Training", subtitle: "Força e resistência", imageX: 12, url: null },
+  { slug: "pernas-top", title: "Pernas Top", subtitle: "Pernas e glúteos", imageX: 592, url: null },
+  { slug: "fight-kombat", title: "Fight Kombat", subtitle: "Energia e movimento", imageX: 1173, url: null },
+  { slug: "barriga-zero", title: "Barriga Zero", subtitle: "Foco nos abdominais", imageX: 1752, url: null },
+  { slug: "tabata", title: "Tabata", subtitle: "Intensidade em cada treino", imageX: 2332, url: null },
+];

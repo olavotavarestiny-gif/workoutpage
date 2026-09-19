@@ -1,6 +1,21 @@
 "use client";
+
 import Link from "next/link";
-import { Home, LifeBuoy, Play, Trophy } from "lucide-react";
+import { Play } from "lucide-react";
 import { useCademiUser } from "@/lib/cademi";
-export function AppShell({ children, active = "today" }: { children: React.ReactNode; active?: string }) { const user = useCademiUser(); return <div className="app-shell"><header className="topbar"><Link href="/dashboard" className="brand" aria-label="SAMORA WORKOUT"><img src="/images/samorafit-workout-logo.webp" alt="SAMORA WORKOUT" /></Link><p className="tagline">O teu próximo nível começa hoje.</p><div className="avatar" title={user.fullName}>{user.avatar ? <img src={user.avatar} alt={user.fullName} /> : user.firstName.slice(0, 1).toUpperCase()}</div></header><main className="main-content">{children}</main><nav className="bottom-nav" aria-label="Navegação principal"><Nav icon={Home} label="Hoje" href="/dashboard" active={active === "today"} /><Nav icon={Play} label="Treinos" href="/dashboard#recomendados" /><Nav icon={Trophy} label="Progresso" href="/dashboard#progresso" /><Nav icon={LifeBuoy} label="Apoio" href="/dashboard#apoio" /></nav></div>; }
-function Nav({ icon: Icon, label, href, active }: { icon: typeof Home; label: string; href: string; active?: boolean }) { return <Link href={href} className={active ? "nav-item active" : "nav-item"}><Icon size={20} /><span>{label}</span></Link>; }
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  const user = useCademiUser();
+  return <div className="app-shell">
+    <a className="skip-link" href="#modulos">Ir para os módulos</a>
+    <header className="topbar">
+      <div className="topbar-inner">
+        <Link href="/dashboard" className="brand" aria-label="SamoraFit Workout — início"><img src="/images/samorafit-workout-logo.webp" alt="SamoraFit Workout" /></Link>
+        <a className="current-section" href="#modulos"><Play size={16} fill="currentColor" /> As minhas aulas</a>
+        <div className="member"><span>Área de aluno</span><div className="avatar" aria-label={user.fullName || "Aluno"}>{user.avatar ? <img src={user.avatar} alt="" /> : user.firstName ? user.firstName.slice(0, 1).toUpperCase() : "S"}</div></div>
+      </div>
+    </header>
+    <main className="main-content">{children}</main>
+    <footer className="footer"><span>SamoraFit Workout <span className="footer-dot">·</span> Bruno Samora</span><span>Torna-te mais.</span></footer>
+  </div>;
+}

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { WebMcpTools } from '@/components/workout/webmcp-tools';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'SAMORA WORKOUT',
-  description: 'O teu próximo nível começa hoje.',
+  description: 'As tuas aulas SamoraFit Workout com Bruno Samora. Escolhe o módulo e começa a treinar.',
 };
 
 export default function RootLayout({
@@ -28,7 +27,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <WebMcpTools />
         {children}
       </body>
     </html>

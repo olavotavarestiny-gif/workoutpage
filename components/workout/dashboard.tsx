@@ -1,10 +1,46 @@
 "use client";
-import Link from "next/link";
-import { ArrowRight, Check, ChevronRight, Clock3, Dumbbell, Flame, MapPin, Play, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
-import { currentQuery, useCademiUser } from "@/lib/cademi";
-import { appConfig, placeLabels, TrainingPlace, week, workouts } from "@/lib/config";
+
+import { ArrowUpRight, ArrowRight, Play, X } from "lucide-react";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useCademiUser } from "@/lib/cademi";
+import { appConfig, modules, type CourseModule } from "@/lib/config";
 import { AppShell } from "./app-shell";
-const places: { id: TrainingPlace; icon: typeof Dumbbell; sub: string }[] = [{ id: "gym", icon: Dumbbell, sub: "Equipamento completo" }, { id: "home", icon: MapPin, sub: "Com pouco material" }, { id: "express", icon: Zap, sub: "Versão rápida" }];
-export function Dashboard() { const user = useCademiUser(); const workout = workouts["peito-triceps"]; const [place, setPlace] = useState<TrainingPlace>("gym"); const [complete, setComplete] = useState(false); useEffect(() => { const saved = localStorage.getItem("samora-workout:place") as TrainingPlace | null; if (saved && placeLabels[saved]) setPlace(saved); setComplete(localStorage.getItem(`samora-workout:day-${workout.day}`) === "done"); }, [workout.day]); const choosePlace = (next: TrainingPlace) => { setPlace(next); localStorage.setItem("samora-workout:place", next); }; const progress = complete ? 41 : appConfig.defaults.progress;
-return <AppShell><section className="welcome"><p>BEM-VINDO DE VOLTA</p><h1>Olá, {user.firstName}.<br /><span>Vamos treinar?</span></h1></section><section className="hero-card"><img src={workout.image} alt="Bruno Samora com halteres" /><div className="hero-overlay" /><div className="hero-copy"><div className="day-chip"><Flame size={15} /> DIA {workout.day} · {workout.eyebrow}</div><h2>{workout.title}</h2><div className="meta"><span><Clock3 />{workout.duration}</span><span><Dumbbell />{workout.level}</span></div><Link className="primary-button" href={`/workout/${workout.slug}${currentQuery()}`}>{complete ? "REVER TREINO" : "COMEÇAR TREINO"}<ArrowRight /></Link></div></section><section className="section-block"><div className="section-heading"><div><p>ADAPTA AO TEU DIA</p><h2>Onde vais treinar?</h2></div><span>{placeLabels[place]}</span></div><div className="place-grid">{places.map(({ id, icon: Icon, sub }) => <button key={id} onClick={() => choosePlace(id)} className={place === id ? "place-card selected" : "place-card"}><Icon /><strong>{placeLabels[id]}</strong><small>{sub}</small>{place === id && <i><Check /></i>}</button>)}</div></section><section className="section-block"><div className="section-heading"><div><p>SEMANA ACTUAL</p><h2>Continua em movimento.</h2></div><strong className="streak">2 <Flame /> dias</strong></div><div className="week-grid">{week.map((item) => <div key={item.day} className={`week-day ${item.state}`}><span>{item.day}</span><i>{item.state === "done" ? <Check /> : item.day.slice(0, 1)}</i><small>{item.label}</small></div>)}</div></section><section id="progresso" className="progress-card"><div className="progress-number"><strong>{progress}%</strong><span>DO PROGRAMA</span></div><div className="progress-copy"><p>O teu progresso</p><h2>{complete ? "13" : "12"} de 30 treinos</h2><div className="progress-track"><span style={{ width: `${progress}%` }} /></div><small>Cada treino conta. Mantém o ritmo.</small></div></section><section className="continue-card"><img src="/images/workout-bruno.jpg" alt="Bruno Samora no ginásio" /><div><p>CONTINUA ONDE PARASTE</p><h2>Aquecimento e técnica</h2><span>Vídeo · 08 min</span></div><button aria-label="Continuar"><Play fill="currentColor" /></button></section><section id="recomendados" className="section-block recommendations"><div className="section-heading"><div><p>PARA COMPLETAR</p><h2>Recomendado para ti</h2></div></div><div className="recommend-grid"><article><span className="mini-icon"><Flame /></span><div><strong>Mobilidade de ombros</strong><small>Preparação · 7 min</small></div><ChevronRight /></article><article><span className="mini-icon"><Dumbbell /></span><div><strong>Core essencial</strong><small>Complementar · 12 min</small></div><ChevronRight /></article></div></section><section id="apoio" className="support-strip"><span>Precisas de ajuda com o treino?</span><a href={appConfig.cademi.support}>Falar com o apoio <ArrowRight /></a></section></AppShell>; }
+
+function ModuleContents({ module, index }: { module: CourseModule; index: number }) {
+  return <>
+    <span className="module-cover" style={{ backgroundPosition: `${module.imageX / (2940 - 560) * 100}% ${656 / (1794 - 910) * 100}%` }}>
+      <span className="module-number">MÓDULO {String(index + 1).padStart(2, "0")}</span>
+      <span className="cover-play"><Play size={22} fill="currentColor" /></span>
+    </span>
+    <span className="module-copy"><span className="module-title">{module.title}</span><span className="module-subtitle">{module.subtitle}</span><span className="module-action">Ver aulas <ArrowRight size={18} /></span></span>
+  </>;
+}
+
+export function Dashboard() {
+  const user = useCademiUser();
+  return <AppShell>
+    <section className="library-intro">
+      <p className="eyebrow">SAMORAFIT WORKOUT</p>
+      <h1>O teu treino começa aqui<span>.</span></h1>
+      <p className="intro-copy">{user.firstName ? `Olá, ${user.firstName}. ` : ""}Escolhe o teu módulo e vamos treinar.</p>
+    </section>
+    <section className="library-section" id="modulos" aria-labelledby="modules-title">
+      <div className="library-heading"><h2 id="modules-title">As tuas aulas</h2><span>5 módulos <span className="heading-dot" /> Ao teu ritmo</span></div>
+      <div className="module-grid">
+        {modules.map((module, index) => <article key={module.slug}>
+          {module.url ? <a className="module-card" href={module.url} target="_top" aria-label={`Ver aulas de ${module.title}`}><ModuleContents module={module} index={index} /></a> :
+            <Dialog>
+              <DialogTrigger className="module-card" aria-label={`Ver aulas de ${module.title}`}><ModuleContents module={module} index={index} /></DialogTrigger>
+              <DialogContent className="module-dialog" showCloseButton={false}>
+                <DialogClose className="dialog-close" aria-label="Fechar"><X size={20} /></DialogClose>
+                <span className="dialog-icon"><Play size={24} fill="currentColor" /></span>
+                <DialogTitle className="dialog-title">{module.title}</DialogTitle>
+                <DialogDescription className="dialog-description">As aulas estão na tua área de aluno da Cademi. Entra e seleciona este módulo para começar.</DialogDescription>
+                <a className="primary-link" href={appConfig.cademi.courseHome} target="_top">Abrir Cademi <ArrowUpRight size={19} /></a>
+              </DialogContent>
+            </Dialog>}
+        </article>)}
+      </div>
+    </section>
+  </AppShell>;
+}
