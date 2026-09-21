@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import type { CourseModule } from '@/lib/config';
 
-// Preserve each existing portrait cover's proportions. Replace with a standalone
-// image when original Cademi assets become available; no raster assets are altered.
 export function WorkoutCover({
   programme,
   className = '',
@@ -14,11 +12,11 @@ export function WorkoutCover({
     <span className={`workout-cover ${className}`}>
       <Image
         unoptimized
-        src="/images/cademi-modules-source.png"
+        src={programme.cover}
         alt={`Bruno Samora — capa de ${programme.title}`}
-        width={2940}
-        height={1794}
-        style={{ left: `${(-programme.imageX / 560) * 100}%` }}
+        width={560}
+        height={994}
+        sizes="(max-width: 640px) 82vw, (max-width: 900px) 50vw, 33vw"
       />
     </span>
   );

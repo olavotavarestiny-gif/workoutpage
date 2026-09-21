@@ -1,6 +1,6 @@
 # SamoraFit Workout
 
-Área de aluno com Home, Meus treinos, Biblioteca, Progresso e Parceiros. A Home apresenta uma faixa de patrocinadores com movimento contínuo, pausa ao passar o rato, swipe e respeito pela preferência de movimento reduzido.
+Pequena plataforma de treino integrada com a Cademi. O projecto concentra a experiência SamoraFit Workout; a autenticação, o perfil e os pagamentos continuam na Cademi.
 
 ## Desenvolvimento
 
@@ -9,7 +9,14 @@ npm ci
 npm run dev
 ```
 
-A raiz redireciona para `/dashboard`. O ambiente local mantém o fluxo Vinext existente.
+Rotas disponíveis:
+
+- `/` — início e treino recomendado;
+- `/treinos` — biblioteca completa;
+- `/progresso` — evolução do aluno;
+- `/suporte` — ajuda rápida.
+
+`/dashboard` mantém compatibilidade e redireciona para `/`.
 
 ## Publicação externa na Vercel
 
@@ -22,7 +29,7 @@ vercel deploy --prod --scope olavos-projects-c1426332
 
 ## Cademi
 
-Incorporar o endereço público `/dashboard` como página externa ou iframe. A política `frame-ancestors` autoriza os subdomínios HTTPS de `cademi.com.br` e `cademi.com`. Se a área de membros usar um domínio próprio, adicionar a sua origem exata em `vercel.json` e publicar novamente.
+Incorporar cada rota pública como página externa ou iframe. A política `frame-ancestors` autoriza os subdomínios HTTPS de `cademi.com.br` e `cademi.com`. Se a área de membros usar um domínio próprio, adicionar a sua origem exacta em `vercel.json` e publicar novamente.
 
 Personalização opcional por parâmetros de URL:
 
@@ -33,7 +40,7 @@ Personalização opcional por parâmetros de URL:
 
 Estes parâmetros personalizam a apresentação; não autenticam o aluno. As aulas continuam na Cademi e os botões abrem os módulos reais configurados em `lib/config.ts`.
 
-O progresso, tempo de retoma e histórico ainda usam os dados locais de `lib/student-data.ts`; não existe sincronização com o player ou histórico da Cademi. `/dashboard?demo=new` permite verificar o estado inicial. As publicidades ainda necessitam de destinos reais para as campanhas.
+O progresso e o tempo de retoma ainda usam os dados locais de `lib/student-data.ts`; não existe sincronização com o player ou histórico da Cademi. `/progresso?demo=new` permite verificar o estado inicial.
 
 ## Validação
 
@@ -42,4 +49,4 @@ npx tsc --noEmit
 npm run build:static
 ```
 
-Após publicar, confirmar uma resposta HTTP 200 em `/dashboard`, o cabeçalho `Content-Security-Policy`, ausência de bloqueio de login e disponibilidade dos assets.
+Após publicar, confirmar uma resposta HTTP 200 em `/`, `/treinos`, `/progresso` e `/suporte`, o cabeçalho `Content-Security-Policy`, ausência de bloqueio de login e disponibilidade dos assets.

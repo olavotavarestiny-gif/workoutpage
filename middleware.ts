@@ -11,4 +11,6 @@ export function middleware(_request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ['/dashboard'] };
+export const config = {
+  matcher: ['/', '/dashboard', '/treinos', '/progresso', '/suporte'],
+};

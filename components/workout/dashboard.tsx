@@ -1,111 +1,73 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useCademiUser } from '@/lib/cademi';
-import { getStudentDemo, type LibraryFilter } from '@/lib/student-data';
-import { AppShell, type NavigationItem } from './app-shell';
+import { getStudentDemo, type StudentProfile } from '@/lib/student-data';
 import { WelcomeSection } from './welcome-section';
 import { TodayWorkout } from './today-workout';
-import { ProgressOverview } from './progress-overview';
 import { WorkoutLibrary } from './workout-library';
 import { Sponsors } from './sponsors';
-import { PartnerOffers } from './partner-offers';
+
+const emptyStudent: StudentProfile = {
+  name: '',
+  avatar: '',
+  currentWorkout: 'cross-training',
+  currentLesson: {
+    number: 1,
+    durationSeconds: 1260,
+    elapsedSeconds: 0,
+    url: null,
+  },
+  progress: 0,
+  trainingStreak: 0,
+  minutesTrained: 0,
+  completedWorkouts: 0,
+  workoutsThisWeek: 0,
+};
 
 export function Dashboard() {
-  const cademiUser = useCademiUser();
   const params = useSearchParams();
-  const demo = getStudentDemo(params.get('demo') === 'new');
-  const user = {
-    ...demo.user,
-    name: cademiUser.fullName || cademiUser.firstName || demo.user.name,
-    avatar: cademiUser.avatar || demo.user.avatar,
-  };
-  const [activeNav, setActiveNav] = useState<NavigationItem>('inicio');
-  const [filter, setFilter] = useState<LibraryFilter>('Todos');
-  const [onlyStarted, setOnlyStarted] = useState(false);
+  const cademiUser = useCademiUser();
+  const isDemo = params.has('demo');
+  const data = getStudentDemo(params.get('demo') === 'new');
+  const firstName =
+    cademiUser.firstName || cademiUser.fullName.trim().split(/\s+/)[0] || '';
+  const user: StudentProfile = isDemo
+    ? data.user
+    : { ...emptyStudent, name: firstName, avatar: cademiUser.avatar };
+  const programmes = data.programmes.map((programme) => ({
+    ...programme,
+    progress: isDemo ? programme.progress : 0,
+  }));
   const programme =
-    demo.programmes.find((item) => item.slug === user.currentWorkout) ||
-    demo.programmes[0];
-  useEffect(() => {
-    function syncNavigation() {
-      const item = window.location.hash.slice(1);
-      if (item === 'conteudo') return;
-      navigate(
-        ['inicio', 'treinos', 'biblioteca', 'progresso', 'parceiros'].includes(
-          item,
-        )
-          ? (item as NavigationItem)
-          : 'inicio',
-      );
-    }
-    syncNavigation();
-    window.addEventListener('hashchange', syncNavigation);
-    return () => window.removeEventListener('hashchange', syncNavigation);
-  }, []);
-  function navigate(item: NavigationItem) {
-    setActiveNav(item);
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    if (item === 'biblioteca' || item === 'treinos') {
-      setOnlyStarted(item === 'treinos');
-      setFilter('Todos');
-    }
-  }
+    programmes.find((item) => item.slug === user.currentWorkout) ||
+    programmes[0];
+
   return (
-    <AppShell user={user} activeNav={activeNav} onNavigate={navigate}>
-      <div className={`workspace-view view-${activeNav}`} key={activeNav}>
-        {activeNav === 'inicio' && (
-          <>
-            <Sponsors />
-            <WelcomeSection user={user} />
-            <TodayWorkout user={user} programme={programme} />
-            <a
-              className="home-library-link"
-              href="#biblioteca"
-              onClick={() => navigate('biblioteca')}
-            >
-              <span>
-                <strong>Encontra o teu próximo treino</strong>
-                <span>5 programas · Aulas de 20 a 21 minutos</span>
-              </span>
-              <span>Ver biblioteca →</span>
-            </a>
-          </>
-        )}
-        {(activeNav === 'biblioteca' || activeNav === 'treinos') && (
-          <WorkoutLibrary
-            programmes={demo.programmes}
-            filter={filter}
-            onFilterChange={setFilter}
-            onlyStarted={onlyStarted}
-            onShowAll={() => {
-              window.location.hash = 'biblioteca';
-              navigate('biblioteca');
-            }}
+    <main className="workout-page" id="conteudo">
+      <a className="skip-link" href="#treino-hoje">
+        Ir para o treino de hoje
+      </a>
+      <section className="dashboard-intro" aria-label="Boas-vindas">
+        <WelcomeSection user={user} />
+        <figure className="home-visual">
+          <Image
+            src="/images/01.jpg"
+            alt="Bruno Samora com equipamento SamoraFit Workout"
+            width={2400}
+            height={1600}
+            sizes="(max-width: 640px) calc(100vw - 36px), 58vw"
+            priority
           />
-        )}
-        {activeNav === 'progresso' && (
-          <>
-            <header className="view-heading">
-              <span className="eyebrow">A TUA EVOLUÇÃO</span>
-              <h1>Progresso</h1>
-              <p>Acompanha o teu ritmo de treino.</p>
-            </header>
-            <ProgressOverview user={user} />
-          </>
-        )}
-        {activeNav === 'parceiros' && (
-          <>
-            <header className="view-heading">
-              <span className="eyebrow">SAMORAFIT</span>
-              <h1>Parceiros</h1>
-              <p>Marcas que acompanham o teu treino.</p>
-            </header>
-            <Sponsors />
-            <PartnerOffers />
-          </>
-        )}
-      </div>
-    </AppShell>
+        </figure>
+      </section>
+      <TodayWorkout user={user} programme={programme} isDemo={isDemo} />
+      <WorkoutLibrary
+        programmes={programmes.filter((item) => item.slug !== programme.slug)}
+        preview
+      />
+      <Sponsors />
+    </main>
   );
 }

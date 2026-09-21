@@ -1,139 +1,41 @@
-'use client';
-
-import { Dumbbell, ArrowRight } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from '@/components/ui/empty';
-import {
-  filterProgrammes,
-  libraryFilters,
-  type LibraryFilter,
-  type WorkoutProgram,
-} from '@/lib/student-data';
+import Link from 'next/link';
+import type { WorkoutProgram } from '@/lib/student-data';
 import { WorkoutCard } from './workout-card';
 
 export function WorkoutLibrary({
   programmes,
-  filter,
-  onFilterChange,
-  onlyStarted,
-  onShowAll,
+  preview = false,
 }: {
   programmes: WorkoutProgram[];
-  filter: LibraryFilter;
-  onFilterChange: (value: LibraryFilter) => void;
-  onlyStarted: boolean;
-  onShowAll: () => void;
+  preview?: boolean;
 }) {
-  const availableFilters = libraryFilters.filter(
-    (category) =>
-      category === 'Todos' ||
-      programmes.some((programme) => programme.categories.includes(category)),
-  );
-  const collection = programmes.filter(
-    (programme) => !onlyStarted || programme.progress > 0,
-  );
-  const visible = filterProgrammes(programmes, filter, onlyStarted);
+  const visibleProgrammes = preview ? programmes.slice(0, 3) : programmes;
   return (
     <section
-      className="library-section"
-      id="colecao-treinos"
+      className={`library-section${preview ? ' library-preview' : ''}`}
       aria-labelledby="library-heading"
     >
-      <div className="section-heading view-heading">
+      <div className="section-heading">
         <div>
-          <span className="eyebrow">ÁREA DE TREINO</span>
-          <h1 id="library-heading">
-            {onlyStarted ? 'Os meus treinos' : 'Biblioteca'}
-          </h1>
-          <p>
-            {onlyStarted
-              ? 'Retoma os programas que já começaste.'
-              : 'Escolhe o teu objetivo. Encontra o teu treino.'}
-          </p>
-        </div>
-        {onlyStarted ? (
-          <button className="text-button" onClick={onShowAll}>
-            Ver todos <ArrowRight size={17} />
-          </button>
-        ) : (
-          <span className="collection-count">
-            <strong>{programmes.length}</strong> programas <span>·</span>{' '}
-            {programmes.reduce(
-              (sum, programme) => sum + programme.lessonCount,
-              0,
-            )}{' '}
-            aulas
+          <span className="eyebrow">
+            {preview ? 'CONTINUA EM MOVIMENTO' : 'ESCOLHE O TEU RITMO'}
           </span>
-        )}
+          <h2 id="library-heading">
+            {preview ? 'Outros treinos' : 'Todos os treinos'}
+          </h2>
+        </div>
+        {!preview && <p>{programmes.length} programas disponíveis</p>}
       </div>
-      <Tabs
-        value={filter}
-        onValueChange={(value) => onFilterChange(value as LibraryFilter)}
-        className="library-tabs"
-      >
-        <TabsList
-          className="filter-list"
-          aria-label="Filtrar treinos por categoria"
-        >
-          {availableFilters.map((category) => (
-            <TabsTrigger
-              className="filter-button"
-              value={category}
-              key={category}
-            >
-              {category}
-              <span className="filter-count">
-                {filterProgrammes(collection, category).length}
-              </span>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {availableFilters.map((category) => (
-          <TabsContent
-            value={category}
-            key={category}
-            className="library-panel"
-          >
-            <output className="sr-only" aria-live="polite">
-              {visible.length}{' '}
-              {visible.length === 1
-                ? 'programa encontrado'
-                : 'programas encontrados'}
-            </output>
-            {visible.length ? (
-              <div className="workout-grid">
-                {visible.map((programme) => (
-                  <WorkoutCard key={programme.slug} programme={programme} />
-                ))}
-              </div>
-            ) : (
-              <Empty className="library-empty">
-                <EmptyHeader>
-                  <Dumbbell size={26} />
-                  <EmptyTitle>
-                    {onlyStarted
-                      ? 'Ainda não tens treinos aqui.'
-                      : 'Ainda não há treinos nesta categoria.'}
-                  </EmptyTitle>
-                  <EmptyDescription>
-                    {onlyStarted
-                      ? 'Escolhe um programa da biblioteca para começar.'
-                      : 'Explora os outros programas disponíveis.'}
-                  </EmptyDescription>
-                </EmptyHeader>
-                <button className="button-secondary" onClick={onShowAll}>
-                  Explorar todos os treinos <ArrowRight size={17} />
-                </button>
-              </Empty>
-            )}
-          </TabsContent>
+      <div className="workout-grid">
+        {visibleProgrammes.map((programme) => (
+          <WorkoutCard key={programme.slug} programme={programme} />
         ))}
-      </Tabs>
+      </div>
+      {preview && (
+        <Link className="library-all-link" href="/treinos">
+          Ver todos os treinos <span aria-hidden="true">→</span>
+        </Link>
+      )}
     </section>
   );
 }

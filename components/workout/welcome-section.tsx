@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useSyncExternalStore } from 'react';
 import type { StudentProfile } from '@/lib/student-data';
 
@@ -19,14 +20,27 @@ export function WelcomeSection({ user }: { user: StudentProfile }) {
     getGreeting,
     serverGreeting,
   );
+  const name = user.name.trim().split(/\s+/)[0];
   return (
-    <section className="welcome-section" aria-labelledby="welcome-heading">
-      <div>
-        <p>
-          {greeting}, {user.name.split(' ')[0]}.
-        </p>
-        <h1 id="welcome-heading">Pronto para treinar?</h1>
-      </div>
-    </section>
+    <header className="welcome-section">
+      <Image
+        className="page-logo"
+        unoptimized
+        src="/images/samorafit-workout-logo.webp"
+        alt="SamoraFit Workout"
+        width={166}
+        height={38}
+        priority
+      />
+      <p>
+        {name
+          ? `${greeting}, ${name}.`
+          : greeting === 'Olá'
+            ? 'Olá.'
+            : `${greeting}.`}
+      </p>
+      <h1>Pronto para treinar?</h1>
+      <span>Treina onde quiseres. Evolui todos os dias.</span>
+    </header>
   );
 }

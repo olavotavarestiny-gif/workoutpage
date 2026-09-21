@@ -4,13 +4,6 @@
   "buildCommand": "npm run build:static",
   "outputDirectory": "dist/client",
   "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/dashboard",
-      "permanent": false
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
