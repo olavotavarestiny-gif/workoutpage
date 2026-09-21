@@ -69,6 +69,8 @@ export function Dashboard() {
               </span>
               <span>Ver biblioteca →</span>
             </a>
+            <Sponsors />
+            <PartnerOffers />
           </>
         )}
         {(activeNav === 'biblioteca' || activeNav === 'treinos') && (
