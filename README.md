@@ -1,33 +1,67 @@
-# SamoraFit Workout — painel de aulas
+# SamoraFit Workout — área de aluno
 
-## Escopo atual
+## Testar localmente
 
-Uma única página simples e responsiva, em `/dashboard`: escolher entre Cross Training, Pernas Top, Fight Kombat, Barriga Zero e Tabata e aceder às aulas na Cademi. A página inicial redireciona para o painel.
-
-A Cademi mantém autenticação, permissões, módulos, aulas e vídeos. Não há gestão de treinos, exercícios, calendário, métricas, progresso fictício ou pagamentos neste painel. Funcionalidades adicionais ficam para uma fase futura.
-
-## Imagens e ligação às aulas
-
-As cinco capas reutilizam a captura fornecida em `public/images/cademi-modules-source.png`, com enquadramento CSS individual. São uma solução provisória para a apresentação; não são os ficheiros originais da Cademi. O enquadramento exclui a barra do navegador e o botão de pagamento da captura.
-
-Os cinco cartões abrem diretamente os endereços reais fornecidos pelo proprietário, pela ordem da referência: Cross Training (1771737), Pernas Top (1771739), Fight Kombat (1771738), Barriga Zero (1771736) e Tabata (1771740). Os URLs estão em `lib/config.ts`. A navegação sai do iframe através de `target="_top"` e a Cademi continua a verificar a sessão e as permissões do aluno. Não são inventadas aulas, contagens ou progresso.
-
-## Desenvolvimento
+As dependências já estão instaladas. Não é necessário reinstalar para esta alteração.
 
 ```bash
-npm install
 npm run dev
+```
+
+Usar a porta indicada no terminal. A raiz redireciona para `/dashboard`.
+
+- `/dashboard`: aluno de demonstração com treino em curso, aula 04 e retoma aos 18:42.
+- `/dashboard?demo=new`: novo aluno, aula 01 recomendada e todas as métricas a zero.
+- `/dashboard?cuser_fname=Maria`: personalização existente da Cademi; nome completo e avatar continuam disponíveis em `cuser_name` e `cuser_avatar`.
+
+```bash
+npm run lint
+npx tsc --noEmit
 npm run build
 ```
 
-Para incorporar na Cademi, usar a URL publicada terminada em `/dashboard` e autorizar esse domínio nas definições da plataforma. O acesso à publicação Sites também deve permitir os alunos antes de uso em produção; a publicação privada serve para revisão pelo proprietário.
+**Esta fase é exclusivamente local. Não fazer deploy, git push, PR ou alterar configurações de produção sem autorização explícita.**
 
-Os parâmetros opcionais `cuser_fname`, `cuser_name` e `cuser_avatar` personalizam a apresentação. Não substituem autenticação. Sem esses parâmetros, o painel usa uma saudação neutra, sem inventar um aluno. Email e telefone não são usados nem guardados. Não existe backend ou armazenamento de progresso.
+## Experiência
 
-## Patrocinadores e publicidade
+A home segue a sequência Hoje → Treinar → Progresso → Explorar. Inclui header sticky, menu de perfil, navegação mobile, treino principal, resumo de programa, quatro métricas simples, biblioteca filtrável e parceiros com cards editoriais. “Os meus treinos” filtra os programas em curso; “Biblioteca” repõe todos. Mobilidade apresenta um estado vazio porque não existe esse programa nos dados fornecidos.
 
-O topo mostra Rádio MFM, Pumangol ao centro e Unitel, usando os logótipos fornecidos. A identidade visual combina vermelho e preto; os módulos mantêm os cinco links reais da Cademi.
+O carrossel publicitário automático foi substituído por um spotlight e dois cards, sem rotação nem distrações. A biblioteca usa quatro colunas no desktop, três no tablet e cartões de scroll horizontal no telemóvel. Filtros e diálogos usam os componentes acessíveis já instalados. As animações respeitam movimento reduzido.
 
-O carrossel abaixo dos módulos alterna as inserções a cada 5,5 segundos. Tem navegação manual, indicadores e pausa; suspende a rotação ao receber foco, ao passar o rato e quando a página está oculta. Respeita a preferência do dispositivo por movimento reduzido.
+## Dados e Cademi
 
-Para gerir as inserções, editar `lib/sponsors.ts`: `sponsors` contém os logótipos e `campaigns` define a ordem dos anúncios. Cada campanha aceita `sponsorId`, `image`, `imageAlt` e `url`. Guardar as peças em `public/images/sponsors/` e indicar o caminho. Quando não existe imagem de campanha, apresenta o logótipo. Quando não existe URL, a inserção não simula uma ligação. As peças e os destinos comerciais ainda não foram fornecidos, pelo que a versão atual mostra apenas as marcas. Não há sistema de cobrança, métricas publicitárias ou painel administrativo nesta fase.
+Todos os valores ilustrativos de aluno, aulas, progresso e campanhas estão centralizados em `lib/student-data.ts`. Os tipos `StudentProfile`, `WorkoutProgram` e `PartnerAd` preparam a substituição por dados reais. A interface identifica a demonstração.
+
+Não foram modificados login, autenticação, backend, base de dados, rotas nem links dos módulos. Os campos de personalização da URL não substituem autenticação. O middleware mantém exatamente os mesmos cabeçalhos; apenas o nome de um argumento não utilizado foi ajustado para o lint.
+
+Os cinco URLs reais permanecem em `lib/config.ts`: Cross Training (1771737), Pernas Top (1771739), Fight Kombat (1771738), Barriga Zero (1771736), Tabata (1771740).
+
+“Continuar treino” abre o módulo na Cademi enquanto `currentLesson.url` for nulo. O tempo 18:42 e o progresso são demonstrações: esta interface **não** controla o player da Cademi nem grava progresso. Quando existir URL real de aula, pode ser fornecido em `currentLesson.url`. Não são inventados links de aula ou parâmetros de seek.
+
+## Componentes
+
+- `app-shell.tsx`: header, menu de perfil, footer e navegação mobile.
+- `welcome-section.tsx`: saudação pela hora local, sem erro de hidratação.
+- `today-workout.tsx`: treino recomendado ou retoma.
+- `programme-details.tsx`: resumo acessível do programa.
+- `progress-overview.tsx`: métricas do aluno.
+- `workout-library.tsx`, `workout-card.tsx`, `workout-cover.tsx`: filtros, cards e capas.
+- `sponsors.tsx`: faixa discreta e componente de logótipo.
+- `partner-offers.tsx`: `AdSpotlight` e `AdCard` reutilizáveis.
+- `dashboard.tsx`: composição e estado dos filtros.
+
+## Assets
+
+Todos os assets reais foram reutilizados sem edição ou geração de novas fotografias. As capas são enquadramentos proporcionais da captura existente `cademi-modules-source.png`; os ficheiros individuais originais da Cademi continuam indisponíveis. O componente de capa mantém o enquadramento inteiro disponível, sem zoom agressivo ou sombras a cobrir Bruno.
+
+Pumangol e Unitel têm transparência (a Unitel usa PNG indexado com transparência). MFM contém fundo branco opaco. Não foi efetuada remoção automática. O logo MFM mantém uma pequena base branca; Unitel recebe uma base clara compacta para contraste do azul escuro. A faixa de parceiros permanece dark, com a Pumangol ao centro. Caminhos e dimensões estão em `lib/sponsors.ts`, prontos para novas versões dos ficheiros.
+
+As campanhas em `studentDemo.ads` são exemplos, não ofertas comerciais confirmadas. Sem `link`, “Descobrir” abre um aviso de demonstração. Com um destino real, abre a campanha. Não existem descontos, preços ou métricas publicitárias inventados.
+
+## Verificação e ajustes na base existente
+
+Foram corrigidos avisos de lint do código alterado e problemas preexistentes no conjunto de primitives: encaminhamento explícito de filhos/associação de labels, conversão explícita de chaves de gráfico, sincronização de media query e remoção de subscrições de carousel. Exceções de lint locais e comentadas preservam a API e os papéis ARIA dos componentes genéricos quando a regra sugere trocar a tag. Não foi desativado o lint global nem mudadas dependências.
+
+## Segunda fase
+
+Ligar as métricas e o estado da aula à fonte de dados autenticada, integrar a retoma real no player quando suportada, obter capas originais e variantes de logos para fundo escuro, e substituir as campanhas de exemplo por peças e links aprovados.

@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
-  response.headers.delete("X-Frame-Options");
-  response.headers.set("Content-Security-Policy", "frame-ancestors 'self' https://*.cademi.com.br https://*.cademi.com;");
+  response.headers.delete('X-Frame-Options');
+  response.headers.set(
+    'Content-Security-Policy',
+    "frame-ancestors 'self' https://*.cademi.com.br https://*.cademi.com;",
+  );
   return response;
 }
 
-export const config = { matcher: ["/dashboard"] };
+export const config = { matcher: ['/dashboard'] };

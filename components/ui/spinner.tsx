@@ -1,3 +1,4 @@
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Preserve this shared primitive's element/ref API; explicit ARIA roles provide its intended semantics. */
 import { cn } from '@/lib/utils';
 import { Loader2Icon } from 'lucide-react';
 

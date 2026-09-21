@@ -1,3 +1,4 @@
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Preserve this shared primitive's element/ref API; explicit ARIA roles provide its intended semantics. */
 'use client';
 
 import * as React from 'react';
@@ -95,12 +96,14 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return;
+    // oxlint-disable-next-line react/react-compiler -- Initialize from the external Embla instance before subscribing to its events.
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
 
     return () => {
       api?.off('select', onSelect);
+      api?.off('reInit', onSelect);
     };
   }, [api, onSelect]);
 

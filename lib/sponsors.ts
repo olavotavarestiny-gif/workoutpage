@@ -1,21 +1,27 @@
-// Replace or add campaigns here. No fabricated destination or impression counts.
+// Supplied, unmodified assets. Replace logo with a transparent variant when supplied.
 export const sponsors = [
-  { id: "mfm", name: "Rádio MFM", logo: "/images/sponsors/mfm.png" },
-  { id: "pumangol", name: "Pumangol", logo: "/images/sponsors/pumangol.png" },
-  { id: "unitel", name: "Unitel", logo: "/images/sponsors/unitel.png" },
-];
-
-export type Campaign = {
-  id: string;
-  sponsorId: string;
-  image?: string;
-  imageAlt?: string;
-  url?: string;
-};
-
-// Logo placements until the advertiser supplies a campaign image and destination.
-export const campaigns: Campaign[] = [
-  { id: "pumangol-destaque", sponsorId: "pumangol" },
-  { id: "unitel-destaque", sponsorId: "unitel" },
-  { id: "mfm-destaque", sponsorId: "mfm" },
+  {
+    id: 'mfm',
+    name: 'Rádio MFM',
+    logo: '/images/sponsors/mfm.png',
+    width: 512,
+    height: 512,
+    transparent: false,
+  },
+  {
+    id: 'pumangol',
+    name: 'Pumangol',
+    logo: '/images/sponsors/pumangol.png',
+    width: 400,
+    height: 225,
+    transparent: true,
+  },
+  {
+    id: 'unitel',
+    name: 'Unitel',
+    logo: '/images/sponsors/unitel.png',
+    width: 1200,
+    height: 1200,
+    transparent: true,
+  },
 ];
