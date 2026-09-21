@@ -763,6 +763,12 @@ img {
   color: #fff;
   font-weight: 680;
 }
+.support-email {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
 
 .loading-screen {
   min-height: 100svh;

@@ -31,7 +31,7 @@ export function WorkoutWebMcpTools() {
           name: 'start_samorafit_workout',
           title: 'Começar treino SamoraFit',
           description:
-            'Abre um programa SamoraFit Workout disponível na área Cademi do aluno.',
+            'Abre um programa disponível na área SamoraFit Workout do aluno.',
           inputSchema: {
             type: 'object',
             properties: {

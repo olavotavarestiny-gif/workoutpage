@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ExternalLink, LifeBuoy } from 'lucide-react';
+import { LifeBuoy, Mail } from 'lucide-react';
 import { PageHeader } from '@/components/workout/page-header';
 import {
   Accordion,
@@ -7,7 +7,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { appConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
   title: 'Suporte | SamoraFit Workout',
@@ -18,17 +17,17 @@ const questions = [
   {
     question: 'Onde encontro as aulas?',
     answer:
-      'Abre a página Treinos, escolhe um programa e toca em “Treinar”. A aula abre directamente na tua área Cademi.',
+      'Abre a página Treinos, escolhe um programa e toca em “Treinar”. A aula abre directamente na tua área Workout.',
   },
   {
     question: 'Como altero os meus dados ou acesso?',
     answer:
-      'O perfil, a palavra-passe, os pagamentos e o acesso à conta são geridos pela Cademi.',
+      'O perfil, a palavra-passe, os pagamentos e o acesso à conta são geridos na tua área Workout.',
   },
   {
     question: 'O meu treino não abriu. O que devo fazer?',
     answer:
-      'Confirma que tens sessão iniciada na Cademi e volta a abrir o programa pela página Treinos.',
+      'Confirma que tens sessão iniciada na Workout e volta a abrir o programa pela página Treinos.',
   },
 ];
 
@@ -58,12 +57,13 @@ export default function SuportePage() {
           </span>
           <h2>Precisas de mais ajuda?</h2>
           <p>
-            Para assuntos relacionados com a conta ou pagamentos, utiliza os
-            canais disponíveis na tua área Cademi.
+            Envia-nos um e-mail para receberes apoio com a tua conta ou com os
+            teus treinos.
           </p>
-          <a href={appConfig.cademi.courseHome} target="_top">
-            Abrir área Cademi <ExternalLink size={17} />
+          <a href="mailto:suporte@brunosamora.ao">
+            Enviar e-mail <Mail size={17} />
           </a>
+          <span className="support-email">suporte@brunosamora.ao</span>
         </aside>
       </div>
     </main>
