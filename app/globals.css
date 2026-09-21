@@ -1561,124 +1561,142 @@ img {
   }
 }
 
-.sponsor-carousel-section {
-  margin: 24px 0 30px;
-  padding: 18px 20px 20px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: linear-gradient(120deg, #201b21, #17171a);
-}
-.view-inicio > .sponsor-carousel-section {
-  margin: 24px 0 0;
-}
-.view-inicio > .welcome-section {
-  padding-top: 26px;
-}
-.sponsor-carousel {
-  max-width: 860px;
-  margin: 0 auto;
-  min-width: 0;
-}
-.sponsor-carousel-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.sponsor-carousel-heading > div:first-child {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-.sponsor-label {
-  color: #b9afb9;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-}
-.sponsor-carousel-heading a {
-  font-size: 14px;
-  color: #f4bec6;
-}
-.sponsor-controls {
-  display: flex;
-  gap: 2px;
-  flex-shrink: 0;
-}
-.sponsor-controls .sponsor-control {
-  position: static;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+/* Quiet sponsor ribbon: shared background, no cards or visible controls. */
+.sponsor-marquee {
+  height: 136px;
+  padding: 22px 0 14px;
   margin: 0;
-  border: 0;
-  border-radius: 50%;
-  color: #c7bdca;
-  background: transparent;
-  cursor: pointer;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 80%, #74182c09, transparent 70%);
 }
-.sponsor-controls .sponsor-control:hover {
-  background: #ffffff0d;
-  color: white;
+.sponsor-marquee h2 {
+  margin: 0 0 14px;
+  text-align: center;
+  color: #91868f;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 18px;
 }
-.sponsor-track {
-  margin-left: -12px;
-  touch-action: pan-y pinch-zoom;
+.sponsor-marquee-viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  scroll-behavior: auto;
+  touch-action: pan-x pan-y pinch-zoom;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
 }
-.sponsor-slide {
-  flex: 0 0 33.333333%;
-  padding-left: 12px;
+.sponsor-marquee-viewport::-webkit-scrollbar {
+  display: none;
 }
-.sponsor-tile {
+.sponsor-marquee-viewport:focus-visible {
+  outline: 1px solid #a88992;
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+.sponsor-marquee-track {
+  display: flex;
+  width: max-content;
+}
+.sponsor-marquee-cycle {
+  display: flex;
+  flex: 0 0 auto;
+}
+.sponsor-marquee-item {
+  flex: 0 0 auto;
+  width: calc((min(100vw, 1336px) - 80px) / 5);
+  height: 62px;
+  padding: 7px 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 82px;
-  border-radius: 10px;
-  background: #f2f1ef;
-  overflow: hidden;
 }
-.sponsor-tile .partner-logo {
-  transform: scale(0.85);
+.sponsor-marquee-item img {
+  width: 100%;
+  height: 44px;
+  max-width: 190px;
+  max-height: 48px;
+  object-fit: contain;
+  opacity: 1;
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+  user-select: none;
 }
-.sponsor-tile .partner-logo-unitel {
-  background: transparent;
+.sponsor-marquee-item:hover img {
+  opacity: 1;
+  transform: scale(1.035);
+}
+.view-inicio > .welcome-section {
+  padding-top: 20px;
+}
+@media (max-width: 1100px) {
+  .sponsor-marquee-item {
+    width: calc((100vw - 56px) / 3.5);
+    padding-inline: 18px;
+  }
 }
 @media (max-width: 650px) {
-  .sponsor-carousel-section,
-  .view-inicio > .sponsor-carousel-section {
-    margin-top: 16px;
-    padding: 10px 12px 14px;
-    border-radius: 12px;
+  .sponsor-marquee {
+    height: 124px;
+    padding-top: 18px;
   }
-  .sponsor-carousel-heading {
-    margin-bottom: 8px;
-    gap: 4px;
-  }
-  .sponsor-carousel-heading > div:first-child {
-    display: grid;
-    gap: 4px;
-  }
-  .sponsor-label {
+  .sponsor-marquee h2 {
     font-size: 12px;
-    letter-spacing: 0.08em;
+    margin-bottom: 12px;
   }
-  .sponsor-carousel-heading a {
-    font-size: 12px;
+  .sponsor-marquee-item {
+    width: calc((100vw - 36px) / 2.1);
+    padding: 8px 10px;
   }
-  .sponsor-controls .sponsor-control {
-    width: 44px;
+  .sponsor-marquee-item img {
+    height: 40px;
+    max-width: 158px;
   }
-  .sponsor-slide {
-    flex-basis: 72%;
-    padding-left: 10px;
+  .sponsor-marquee-viewport {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
   }
-  .sponsor-track {
-    margin-left: -10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-marquee-item img {
+    transition: none;
   }
-  .sponsor-tile {
-    height: 72px;
+  .sponsor-marquee-item:hover img {
+    transform: none;
+  }
+}
+
+.sponsor-marquee-mfm img {
+  height: 48px;
+  max-height: 48px;
+  max-width: 140px;
+}
+.sponsor-marquee-pumangol {
+  padding-inline: 8px;
+}
+.sponsor-marquee-pumangol img {
+  max-width: 220px;
+}
+.sponsor-marquee-unitel img {
+  filter: drop-shadow(0 0 1px #ffffff65);
+}
+@media (max-width: 650px) {
+  .sponsor-marquee-mfm img {
+    height: 46px;
+    max-width: 125px;
   }
 }

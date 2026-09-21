@@ -2,6 +2,9 @@
 export const sponsors = [
   {
     id: 'mfm',
+    marqueeLogo: '/images/sponsors/mfm-dark.svg',
+    marqueeWidth: 500,
+    marqueeHeight: 200,
     name: 'Rádio MFM',
     logo: '/images/sponsors/mfm.png',
     width: 512,
@@ -10,6 +13,9 @@ export const sponsors = [
   },
   {
     id: 'pumangol',
+    marqueeLogo: '/images/sponsors/pumangol-dark.svg',
+    marqueeWidth: 357,
+    marqueeHeight: 41,
     name: 'Pumangol',
     logo: '/images/sponsors/pumangol.png',
     width: 400,
@@ -18,6 +24,9 @@ export const sponsors = [
   },
   {
     id: 'unitel',
+    marqueeLogo: '/images/sponsors/unitel-dark.svg',
+    marqueeWidth: 1153,
+    marqueeHeight: 293,
     name: 'Unitel',
     logo: '/images/sponsors/unitel.png',
     width: 1200,
