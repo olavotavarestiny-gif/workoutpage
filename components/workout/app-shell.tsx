@@ -10,6 +10,7 @@ import {
   Dumbbell,
   ChartNoAxesColumn,
   UserRound,
+  Handshake,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -20,13 +21,18 @@ import {
 import { appConfig } from '@/lib/config';
 import type { StudentProfile } from '@/lib/student-data';
 
-export type NavigationItem = 'inicio' | 'treinos' | 'biblioteca' | 'progresso';
+export type NavigationItem =
+  | 'inicio'
+  | 'treinos'
+  | 'biblioteca'
+  | 'progresso'
+  | 'parceiros';
 const navigation = [
   { id: 'inicio', href: '#inicio', label: 'Início', icon: Home },
   {
     id: 'treinos',
-    href: '#biblioteca',
-    label: 'Os meus treinos',
+    href: '#treinos',
+    label: 'Meus treinos',
     icon: Dumbbell,
   },
   { id: 'biblioteca', href: '#biblioteca', label: 'Biblioteca', icon: Library },
@@ -36,6 +42,7 @@ const navigation = [
     label: 'Progresso',
     icon: ChartNoAxesColumn,
   },
+  { id: 'parceiros', href: '#parceiros', label: 'Parceiros', icon: Handshake },
 ] as const;
 
 function StudentAvatar({ user }: { user: StudentProfile }) {
@@ -72,8 +79,8 @@ export function AppShell({
   const firstName = user.name.split(' ')[0];
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#treino-hoje">
-        Ir para o treino de hoje
+      <a className="skip-link" href="#conteudo">
+        Ir para o conteúdo
       </a>
       <header className="topbar">
         <div className="topbar-inner">
@@ -97,7 +104,7 @@ export function AppShell({
                 href={item.href}
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                aria-current={activeNav === item.id ? 'location' : undefined}
+                aria-current={activeNav === item.id ? 'page' : undefined}
               >
                 {item.label}
               </a>
@@ -118,7 +125,7 @@ export function AppShell({
                 <span>Aluno SamoraFit</span>
               </div>
               <DropdownMenuItem
-                render={<a href="#biblioteca" aria-label="Os meus treinos" />}
+                render={<a href="#treinos" aria-label="Os meus treinos" />}
                 onClick={() => onNavigate('treinos')}
               >
                 <Dumbbell size={17} /> Os meus treinos
@@ -145,7 +152,7 @@ export function AppShell({
           </DropdownMenu>
         </div>
       </header>
-      <main className="main-content" id="inicio">
+      <main className="main-content" id="conteudo" tabIndex={-1}>
         {children}
       </main>
       <footer className="footer">
@@ -160,7 +167,7 @@ export function AppShell({
             href={item.href}
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            aria-current={activeNav === item.id ? 'location' : undefined}
+            aria-current={activeNav === item.id ? 'page' : undefined}
           >
             <Icon size={19} />
             <span>{item.id === 'treinos' ? 'Meus treinos' : item.label}</span>

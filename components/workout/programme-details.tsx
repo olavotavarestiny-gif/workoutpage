@@ -53,7 +53,7 @@ export function ProgrammeDetails({ programme }: { programme: WorkoutProgram }) {
           aria-label={`Progresso de ${programme.title}`}
         />
         <p className="demo-note">
-          Dados de demonstração. As aulas e o acesso são geridos na Cademi.
+          As aulas estão disponíveis na tua área de aluno Cademi.
         </p>
         <a className="button-primary" href={programme.url} target="_top">
           Abrir programa na Cademi <ArrowUpRight size={18} />

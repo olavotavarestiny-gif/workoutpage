@@ -27,12 +27,6 @@ export function WelcomeSection({ user }: { user: StudentProfile }) {
         </p>
         <h1 id="welcome-heading">Pronto para treinar?</h1>
       </div>
-      <span
-        className="demo-badge"
-        title="Nome, duração das aulas e progresso são exemplos para testar esta interface."
-      >
-        Demonstração <span /> Dados de exemplo
-      </span>
     </section>
   );
 }

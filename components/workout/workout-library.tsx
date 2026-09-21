@@ -29,26 +29,46 @@ export function WorkoutLibrary({
   onlyStarted: boolean;
   onShowAll: () => void;
 }) {
+  const availableFilters = libraryFilters.filter(
+    (category) =>
+      category === 'Todos' ||
+      programmes.some((programme) => programme.categories.includes(category)),
+  );
+  const collection = programmes.filter(
+    (programme) => !onlyStarted || programme.progress > 0,
+  );
   const visible = filterProgrammes(programmes, filter, onlyStarted);
   return (
     <section
       className="library-section"
-      id="biblioteca"
+      id="colecao-treinos"
       aria-labelledby="library-heading"
     >
-      <div className="section-heading">
+      <div className="section-heading view-heading">
         <div>
-          <span className="eyebrow">ENCONTRA O TEU RITMO</span>
-          <h2 id="library-heading">
-            {onlyStarted ? 'Os meus treinos' : 'Explorar treinos'}
-          </h2>
+          <span className="eyebrow">ÁREA DE TREINO</span>
+          <h1 id="library-heading">
+            {onlyStarted ? 'Os meus treinos' : 'Biblioteca'}
+          </h1>
+          <p>
+            {onlyStarted
+              ? 'Retoma os programas que já começaste.'
+              : 'Escolhe o teu objetivo. Encontra o teu treino.'}
+          </p>
         </div>
         {onlyStarted ? (
           <button className="text-button" onClick={onShowAll}>
             Ver todos <ArrowRight size={17} />
           </button>
         ) : (
-          <span>{programmes.length} programas para ti</span>
+          <span className="collection-count">
+            <strong>{programmes.length}</strong> programas <span>·</span>{' '}
+            {programmes.reduce(
+              (sum, programme) => sum + programme.lessonCount,
+              0,
+            )}{' '}
+            aulas
+          </span>
         )}
       </div>
       <Tabs
@@ -60,17 +80,20 @@ export function WorkoutLibrary({
           className="filter-list"
           aria-label="Filtrar treinos por categoria"
         >
-          {libraryFilters.map((category) => (
+          {availableFilters.map((category) => (
             <TabsTrigger
               className="filter-button"
               value={category}
               key={category}
             >
               {category}
+              <span className="filter-count">
+                {filterProgrammes(collection, category).length}
+              </span>
             </TabsTrigger>
           ))}
         </TabsList>
-        {libraryFilters.map((category) => (
+        {availableFilters.map((category) => (
           <TabsContent
             value={category}
             key={category}

@@ -93,7 +93,7 @@ export function TodayWorkout({
             <ProgrammeDetails programme={programme} />
           </div>
           <p className="today-note">
-            Abre na Cademi · Ponto de retoma ilustrativo nesta demonstração.
+            Acede à aula na tua área de aluno Cademi.
           </p>
         </div>
         <div className="today-art">

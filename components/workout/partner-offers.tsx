@@ -43,16 +43,11 @@ function AdAction({ ad }: { ad: PartnerAd }) {
           <X size={21} />
         </DialogClose>
         <PartnerLogo id={ad.brand} />
-        <DialogTitle className="dialog-title">
-          Campanha de demonstração
-        </DialogTitle>
+        <DialogTitle className="dialog-title">Mais informações</DialogTitle>
         <DialogDescription className="dialog-description">
-          Este é um exemplo de espaço de marca. A oferta e o destino da campanha
-          ainda não estão disponíveis.
+          Os detalhes desta campanha ainda não estão disponíveis.
         </DialogDescription>
-        <DialogClose className="button-secondary">
-          Voltar aos treinos
-        </DialogClose>
+        <DialogClose className="button-secondary">Fechar</DialogClose>
       </DialogContent>
     </Dialog>
   );
@@ -114,7 +109,6 @@ export function PartnerOffers() {
     <section className="offers-section" aria-labelledby="offers-heading">
       <div className="section-heading">
         <h2 id="offers-heading">Parceiros SamoraFit</h2>
-        <span>Conteúdo de demonstração</span>
       </div>
       <div className="offers-grid">
         {studentDemo.ads.map((ad) =>

@@ -26,7 +26,7 @@ export function ProgressOverview({ user }: { user: StudentProfile }) {
   ];
   return (
     <section
-      id="progresso"
+      id="resumo-progresso"
       className="progress-section"
       aria-labelledby="progress-heading"
     >
