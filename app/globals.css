@@ -1560,3 +1560,15 @@ img {
     background: #291a21;
   }
 }
+
+.view-inicio > .sponsors-section {
+  margin: 20px 0 0;
+  padding: 18px 12px;
+  border-top: 0;
+}
+.view-inicio > .sponsors-section h2 {
+  margin-bottom: 14px;
+}
+.view-inicio > .welcome-section {
+  padding-top: 26px;
+}

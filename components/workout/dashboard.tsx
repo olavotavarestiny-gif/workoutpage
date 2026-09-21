@@ -56,6 +56,7 @@ export function Dashboard() {
       <div className={`workspace-view view-${activeNav}`} key={activeNav}>
         {activeNav === 'inicio' && (
           <>
+            <Sponsors />
             <WelcomeSection user={user} />
             <TodayWorkout user={user} programme={programme} />
             <a
@@ -69,8 +70,6 @@ export function Dashboard() {
               </span>
               <span>Ver biblioteca →</span>
             </a>
-            <Sponsors />
-            <PartnerOffers />
           </>
         )}
         {(activeNav === 'biblioteca' || activeNav === 'treinos') && (
