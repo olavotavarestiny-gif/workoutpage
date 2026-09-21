@@ -30,6 +30,7 @@ export function Dashboard() {
   useEffect(() => {
     function syncNavigation() {
       const item = window.location.hash.slice(1);
+      if (item === 'conteudo') return;
       navigate(
         ['inicio', 'treinos', 'biblioteca', 'progresso', 'parceiros'].includes(
           item,
