@@ -3,19 +3,16 @@ export const cademiContextKeys = [
   'cuser_gratis',
   'cuser_fname',
   'cuser_name',
+  'cuser_email',
   'cuser_avatar',
 ] as const;
 
-export type CademiAccessState = 'purchased' | 'free' | 'unknown';
+export type WorkoutAccessState = 'checking' | 'granted' | 'denied';
 
-// Presentation only: Cademí must authorize every actual module/lesson request.
-// Missing context is not evidence that an authenticated student has not paid.
-export function getCademiAccessState(
-  params: URLSearchParams,
-): CademiAccessState {
-  const values = params.getAll('cuser_gratis');
-  if (values.length !== 1) return 'unknown';
-  if (values[0] === '0') return 'purchased';
-  if (values[0] === '1') return 'free';
-  return 'unknown';
+export function getAccessRequest(params: URLSearchParams) {
+  const userId = params.get('cuser_id')?.trim() || '';
+  const email = params.get('cuser_email')?.trim().toLowerCase() || '';
+
+  if (!/^\d+$/.test(userId) || !email.includes('@')) return null;
+  return { userId, email };
 }

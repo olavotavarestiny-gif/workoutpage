@@ -1,6 +1,14 @@
-import { ArrowRight, Clock3, Play, Signal } from 'lucide-react';
+import {
+  ArrowRight,
+  Clock3,
+  LoaderCircle,
+  LockKeyhole,
+  Play,
+  Signal,
+} from 'lucide-react';
 import type { StudentProfile, WorkoutProgram } from '@/lib/student-data';
-import type { CademiAccessState } from '@/lib/cademi-access';
+import type { WorkoutAccessState } from '@/lib/cademi-access';
+import { PaymentRequiredDialog } from './payment-required-dialog';
 import { WorkoutCover } from './workout-cover';
 
 export function TodayWorkout({
@@ -12,7 +20,7 @@ export function TodayWorkout({
   user: StudentProfile;
   programme: WorkoutProgram;
   isDemo: boolean;
-  accessState: CademiAccessState;
+  accessState: WorkoutAccessState;
 }) {
   const canResume = isDemo && user.currentLesson.elapsedSeconds > 0;
   return (
@@ -44,24 +52,32 @@ export function TodayWorkout({
             </span>
             <span>{programme.lessonCount} aulas</span>
           </div>
-          <a
-            href={user.currentLesson.url || programme.url}
-            target="_top"
-            className="button-primary"
-          >
-            <Play size={18} fill="currentColor" />
-            {accessState !== 'purchased'
-              ? 'Verificar acesso na Cademí'
-              : canResume
-                ? 'Continuar treino'
-                : 'Começar treino'}
-            <ArrowRight size={19} />
-          </a>
-          {accessState !== 'purchased' && (
-            <p className="access-recheck">
-              Já pagaste? Abre o treino com a conta usada no pagamento. A Cademí
-              verifica a tua permissão para esta aula.
-            </p>
+          {accessState === 'granted' ? (
+            <a
+              href={user.currentLesson.url || programme.url}
+              target="_top"
+              className="button-primary"
+            >
+              <Play size={18} fill="currentColor" />
+              {canResume ? 'Continuar treino' : 'Começar treino'}
+              <ArrowRight size={19} />
+            </a>
+          ) : accessState === 'denied' ? (
+            <PaymentRequiredDialog
+              trigger={
+                <button className="button-primary button-locked" type="button">
+                  <LockKeyhole size={18} /> Aulas bloqueadas
+                </button>
+              }
+            />
+          ) : (
+            <button
+              className="button-primary button-locked"
+              type="button"
+              disabled
+            >
+              <LoaderCircle className="access-spinner" size={18} /> A carregar
+            </button>
           )}
         </div>
       </article>

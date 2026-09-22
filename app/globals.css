@@ -192,13 +192,60 @@ img {
 .button-locked {
   background: #6b6b6b;
   box-shadow: none;
-  cursor: not-allowed;
+  cursor: pointer;
 }
-.access-recheck {
-  margin-top: 16px;
-  color: var(--muted-foreground);
-  font-size: 14px;
-  line-height: 1.5;
+.button-locked:disabled {
+  cursor: wait;
+}
+.access-spinner {
+  animation: access-spin 0.8s linear infinite;
+}
+@keyframes access-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.payment-dialog {
+  gap: 18px;
+  padding: 26px;
+  border-radius: 22px;
+  text-align: center;
+}
+.payment-dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff0f0;
+  color: var(--primary);
+}
+.payment-dialog-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.payment-dialog [data-slot='dialog-title'] {
+  font-size: 21px;
+  line-height: 1.2;
+}
+.payment-dialog [data-slot='dialog-description'] {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.payment-dialog [data-slot='dialog-footer'] {
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.payment-dialog-button {
+  min-width: 150px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
 }
 .workout-cover {
   position: relative;
@@ -344,6 +391,16 @@ img {
 }
 .workout-card.is-locked .card-action {
   color: #676767;
+}
+.workout-gate-button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
 }
 .workout-art .workout-cover {
   width: 100%;

@@ -4,6 +4,11 @@
   "buildCommand": "npm run build:static",
   "outputDirectory": "dist/client",
   "cleanUrls": true,
+  "functions": {
+    "api/workout-access.ts": {
+      "maxDuration": 10
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",

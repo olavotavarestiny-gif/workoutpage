@@ -1,6 +1,7 @@
-import { ArrowUpRight, Clock3, LockKeyhole } from 'lucide-react';
+import { ArrowUpRight, Clock3, LoaderCircle, LockKeyhole } from 'lucide-react';
 import type { WorkoutProgram } from '@/lib/student-data';
-import type { CademiAccessState } from '@/lib/cademi-access';
+import type { WorkoutAccessState } from '@/lib/cademi-access';
+import { PaymentRequiredDialog } from './payment-required-dialog';
 import { WorkoutCover } from './workout-cover';
 
 export function WorkoutCard({
@@ -8,14 +9,14 @@ export function WorkoutCard({
   accessState,
 }: {
   programme: WorkoutProgram;
-  accessState: CademiAccessState;
+  accessState: WorkoutAccessState;
 }) {
-  const isFree = accessState === 'free';
+  const isLocked = accessState === 'denied';
   const contents = (
     <>
       <div className="workout-art">
         <WorkoutCover programme={programme} />
-        {isFree && (
+        {isLocked && (
           <span className="workout-lock" aria-hidden="true">
             <LockKeyhole size={22} />
           </span>
@@ -33,14 +34,18 @@ export function WorkoutCard({
           <span>{programme.level}</span>
         </div>
         <span className="card-action">
-          {!isFree ? (
+          {accessState === 'granted' ? (
             <>
-              {accessState === 'purchased' ? 'Treinar' : 'Verificar acesso'}{' '}
+              Treinar
               <ArrowUpRight size={17} />
+            </>
+          ) : accessState === 'checking' ? (
+            <>
+              A carregar <LoaderCircle className="access-spinner" size={16} />
             </>
           ) : (
             <>
-              Verificar acesso <LockKeyhole size={16} />
+              Bloqueado <LockKeyhole size={16} />
             </>
           )}
         </span>
@@ -49,15 +54,33 @@ export function WorkoutCard({
   );
 
   return (
-    <article className={`workout-card${isFree ? ' is-locked' : ''}`}>
-      <a
-        className="workout-link"
-        href={programme.url}
-        target="_top"
-        aria-label={`${accessState === 'purchased' ? 'Treinar' : 'Verificar acesso a'} ${programme.title}`}
-      >
-        {contents}
-      </a>
+    <article className={`workout-card${isLocked ? ' is-locked' : ''}`}>
+      {accessState === 'granted' ? (
+        <a
+          className="workout-link"
+          href={programme.url}
+          target="_top"
+          aria-label={`Treinar ${programme.title}`}
+        >
+          {contents}
+        </a>
+      ) : accessState === 'denied' ? (
+        <PaymentRequiredDialog
+          trigger={
+            <button
+              className="workout-link workout-gate-button"
+              type="button"
+              aria-label={`${programme.title}: pagamento necessário`}
+            >
+              {contents}
+            </button>
+          }
+        />
+      ) : (
+        <div className="workout-link" aria-label="A carregar acesso">
+          {contents}
+        </div>
+      )}
     </article>
   );
 }

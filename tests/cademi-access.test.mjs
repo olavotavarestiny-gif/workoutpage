@@ -1,19 +1,27 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { getCademiAccessState } from '../lib/cademi-access.ts';
+import { getAccessRequest } from '../lib/cademi-access.ts';
 
-for (const [query, expected] of [
-  ['cuser_gratis=0', 'purchased'],
-  ['cuser_gratis=1', 'free'],
-  ['', 'unknown'],
-  ['cuser_id=123&cuser_fname=Aluno', 'unknown'],
-  ['demo=paid', 'unknown'],
-  ['cuser_gratis=', 'unknown'],
-  ['cuser_gratis=false', 'unknown'],
-  ['cuser_gratis=0&cuser_gratis=1', 'unknown'],
+for (const scenario of [
+  {
+    label: 'valid identity',
+    query: 'cuser_id=123&cuser_email=Aluno%40Example.com',
+    expected: { userId: '123', email: 'aluno@example.com' },
+  },
+  {
+    label: 'missing email',
+    query: 'cuser_id=123&cuser_fname=Aluno',
+    expected: null,
+  },
+  {
+    label: 'invalid user id',
+    query: 'cuser_id=abc&cuser_email=aluno%40example.com',
+    expected: null,
+  },
+  { label: 'missing context', query: '', expected: null },
 ]) {
-  test(`${query || 'missing context'} is ${expected}`, () => {
-    const params = new URLSearchParams(query);
-    assert.equal(getCademiAccessState(params), expected);
+  test(`${scenario.label} resolves correctly`, () => {
+    const params = new URLSearchParams(scenario.query);
+    assert.deepEqual(getAccessRequest(params), scenario.expected);
   });
 }
