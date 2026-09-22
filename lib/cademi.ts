@@ -1,7 +1,7 @@
 'use client';
 
 import { appConfig } from './config';
-import { hasCademiCourseAccess } from './cademi-access';
+import { getCademiAccessState } from './cademi-access';
 import { useBrowserSearchParams } from './browser-search-params';
 
 export function useCademiUser() {
@@ -16,9 +16,7 @@ export function useCademiUser() {
       appConfig.defaults.firstName,
     fullName,
     avatar: safeImageUrl(params.get('cuser_avatar')),
-    hasCourseAccess: hasCademiCourseAccess(
-      new URLSearchParams(params.toString()),
-    ),
+    accessState: getCademiAccessState(params),
   };
 }
 

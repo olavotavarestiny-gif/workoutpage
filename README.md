@@ -39,7 +39,13 @@ Personalização opcional por parâmetros de URL:
 - `cuser_id`: identificador de aluno.
 - `cuser_gratis`: `1` para aluno gratuito sem compra e `0` para aluno com compra.
 
-Estes parâmetros personalizam a apresentação; não autenticam o aluno. Eles são lidos directamente da URL do navegador para funcionarem também na exportação estática. Sem `cuser_gratis=0`, as aulas aparecem bloqueadas e não geram links. Com a compra confirmada, a Cademí envia `cuser_gratis=0` e os botões abrem os módulos reais configurados em `lib/config.ts`. A autorização efectiva continua sob responsabilidade das Entregas e permissões da Cademí.
+Estes parâmetros personalizam a apresentação; não autenticam o aluno nem comprovam permissão para um produto específico. Eles são lidos directamente da URL do navegador para funcionarem também na exportação estática. `cuser_gratis=1` mostra cadeados e “Verificar acesso”; `0` mostra os botões de treino. Um valor ausente, inválido ou duplicado significa estado desconhecido, não falta de pagamento. Todos os cartões navegam para o módulo oficial, onde a Cademí verifica a permissão. O HTML estático também contém esse caminho, sem depender da inicialização do JavaScript.
+
+Diagnóstico verificado em 22/09/2026: a mesma sessão recebeu `cuser_gratis=1` na página incorporada, mas conseguiu abrir o módulo 1771737, a aula 8990077 e o player. Por isso, não usar este indicador geral como veto à navegação para um produto específico. Não foi alterada nenhuma Entrega, compra ou permissão da Cademí.
+
+Mesmo no estado gratuito os botões permitem verificar acesso, para não aprisionar alunos com contexto desactualizado. Estes links saem do iframe com `target="_top"` e não concedem acesso: a autenticação e autorização efectiva continuam sob responsabilidade das Entregas e permissões da Cademí. Nunca acrescentar `cuser_gratis=0` fixo à URL de incorporação nem guardar uma autorização em localStorage. Os produtos pagos devem estar protegidos na Cademí; um cadeado visual nesta página não substitui essas permissões.
+
+Configurar a incorporação como **Página Dinâmica**, não apenas iframe genérico. Confirmar o URL exacto do módulo em `lib/config.ts` e a Entrega do aluno na Cademí. Um email de entrega, isoladamente, não comprova que todos os módulos estão incluídos. Referências: [Páginas Dinâmicas](https://ajuda.cademi.com.br/configuracoes/paginas-dinamicas) e [Entregas](https://ajuda.cademi.com.br/vitrines/entregas-e-integracoes).
 
 O progresso e o tempo de retoma ainda usam os dados locais de `lib/student-data.ts`; não existe sincronização com o player ou histórico da Cademi. `/progresso?demo=new` permite verificar o estado inicial.
 
@@ -47,6 +53,7 @@ O progresso e o tempo de retoma ainda usam os dados locais de `lib/student-data.
 
 ```sh
 npx tsc --noEmit
+node --experimental-strip-types --test tests/cademi-access.test.mjs
 npm run build:static
 ```
 

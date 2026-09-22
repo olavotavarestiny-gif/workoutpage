@@ -12,7 +12,7 @@ export function WorkoutLibrary({
   programmes: WorkoutProgram[];
   preview?: boolean;
 }) {
-  const { hasCourseAccess } = useCademiUser();
+  const { accessState } = useCademiUser();
   const visibleProgrammes = preview ? programmes.slice(0, 3) : programmes;
   return (
     <section
@@ -35,7 +35,7 @@ export function WorkoutLibrary({
           <WorkoutCard
             key={programme.slug}
             programme={programme}
-            hasAccess={hasCourseAccess}
+            accessState={accessState}
           />
         ))}
       </div>

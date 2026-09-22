@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { modules } from '@/lib/config';
-import { hasCademiCourseAccess } from '@/lib/cademi-access';
 
 type ModelContext = {
   registerTool: (
@@ -20,10 +19,6 @@ type ModelContext = {
 
 export function WorkoutWebMcpTools() {
   useEffect(() => {
-    if (!hasCademiCourseAccess(new URLSearchParams(window.location.search))) {
-      return;
-    }
-
     const context = (document as Document & { modelContext?: ModelContext })
       .modelContext;
     if (!context?.registerTool) return;
@@ -35,7 +30,7 @@ export function WorkoutWebMcpTools() {
           name: 'start_samorafit_workout',
           title: 'Começar treino SamoraFit',
           description:
-            'Abre um programa disponível na área SamoraFit Workout do aluno.',
+            'Abre o módulo oficial SamoraFit; a Cademí verifica a permissão do aluno antes de mostrar a aula.',
           inputSchema: {
             type: 'object',
             properties: {

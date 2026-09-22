@@ -67,7 +67,7 @@ export function Dashboard() {
         user={user}
         programme={programme}
         isDemo={isDemo}
-        hasAccess={cademiUser.hasCourseAccess}
+        accessState={cademiUser.accessState}
       />
       <WorkoutLibrary
         programmes={programmes.filter((item) => item.slug !== programme.slug)}

@@ -1,19 +1,21 @@
 import { ArrowUpRight, Clock3, LockKeyhole } from 'lucide-react';
 import type { WorkoutProgram } from '@/lib/student-data';
+import type { CademiAccessState } from '@/lib/cademi-access';
 import { WorkoutCover } from './workout-cover';
 
 export function WorkoutCard({
   programme,
-  hasAccess,
+  accessState,
 }: {
   programme: WorkoutProgram;
-  hasAccess: boolean;
+  accessState: CademiAccessState;
 }) {
+  const isFree = accessState === 'free';
   const contents = (
     <>
       <div className="workout-art">
         <WorkoutCover programme={programme} />
-        {!hasAccess && (
+        {isFree && (
           <span className="workout-lock" aria-hidden="true">
             <LockKeyhole size={22} />
           </span>
@@ -31,13 +33,14 @@ export function WorkoutCard({
           <span>{programme.level}</span>
         </div>
         <span className="card-action">
-          {hasAccess ? (
+          {!isFree ? (
             <>
-              Treinar <ArrowUpRight size={17} />
+              {accessState === 'purchased' ? 'Treinar' : 'Verificar acesso'}{' '}
+              <ArrowUpRight size={17} />
             </>
           ) : (
             <>
-              Bloqueado <LockKeyhole size={16} />
+              Verificar acesso <LockKeyhole size={16} />
             </>
           )}
         </span>
@@ -46,24 +49,15 @@ export function WorkoutCard({
   );
 
   return (
-    <article className={`workout-card${hasAccess ? '' : ' is-locked'}`}>
-      {hasAccess ? (
-        <a
-          className="workout-link"
-          href={programme.url}
-          target="_top"
-          aria-label={`Treinar ${programme.title}`}
-        >
-          {contents}
-        </a>
-      ) : (
-        <div
-          className="workout-link"
-          aria-label={`${programme.title}: acesso bloqueado até à confirmação do pagamento`}
-        >
-          {contents}
-        </div>
-      )}
+    <article className={`workout-card${isFree ? ' is-locked' : ''}`}>
+      <a
+        className="workout-link"
+        href={programme.url}
+        target="_top"
+        aria-label={`${accessState === 'purchased' ? 'Treinar' : 'Verificar acesso a'} ${programme.title}`}
+      >
+        {contents}
+      </a>
     </article>
   );
 }
