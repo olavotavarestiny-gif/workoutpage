@@ -27,4 +27,11 @@ export const sponsors = [
     width: 350,
     height: 180,
   },
+  {
+    id: 'solve-corporate',
+    name: 'Solve Corporate',
+    logo: '/images/sponsors/solve-corporate.png',
+    width: 1746,
+    height: 870,
+  },
 ] as const;

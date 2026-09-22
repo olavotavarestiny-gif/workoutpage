@@ -600,6 +600,10 @@ img {
   max-width: 156px;
   max-height: 54px;
 }
+.sponsor-logo-solve-corporate img {
+  max-width: 142px;
+  max-height: 52px;
+}
 
 .library-preview .workout-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
