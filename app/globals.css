@@ -176,6 +176,24 @@ img {
   overflow: hidden;
   background: #ffffff;
 }
+.locked-access {
+  margin-top: 34px;
+}
+.locked-access .button-primary {
+  margin-top: 0;
+}
+.locked-access p {
+  max-width: 330px;
+  margin-top: 12px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.button-locked {
+  background: #6b6b6b;
+  box-shadow: none;
+  cursor: not-allowed;
+}
 .workout-cover {
   position: relative;
   display: block;
@@ -285,10 +303,41 @@ img {
   height: 100%;
 }
 .workout-art {
+  position: relative;
   overflow: hidden;
   min-height: 226px;
   aspect-ratio: auto;
   background: #fff;
+}
+.workout-lock {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #ffffffcc;
+  border-radius: 50%;
+  background: #161616cc;
+  color: #fff;
+  box-shadow: 0 8px 24px #0003;
+  backdrop-filter: blur(5px);
+}
+.workout-card.is-locked {
+  background: #f7f7f7;
+}
+.workout-card.is-locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+.workout-card.is-locked .workout-cover img {
+  filter: grayscale(0.7);
+  opacity: 0.62;
+  transform: none;
+}
+.workout-card.is-locked .card-action {
+  color: #676767;
 }
 .workout-art .workout-cover {
   width: 100%;
@@ -472,7 +521,9 @@ img {
   max-height: 46px;
   object-fit: contain;
   opacity: 0.84;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 .sponsor-logo:hover img,
 .sponsor-logo:focus-visible img {

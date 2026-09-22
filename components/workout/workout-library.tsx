@@ -1,5 +1,8 @@
-import Link from 'next/link';
+'use client';
+
 import type { WorkoutProgram } from '@/lib/student-data';
+import { useCademiUser } from '@/lib/cademi';
+import { CademiLink } from './cademi-link';
 import { WorkoutCard } from './workout-card';
 
 export function WorkoutLibrary({
@@ -9,6 +12,7 @@ export function WorkoutLibrary({
   programmes: WorkoutProgram[];
   preview?: boolean;
 }) {
+  const { hasCourseAccess } = useCademiUser();
   const visibleProgrammes = preview ? programmes.slice(0, 3) : programmes;
   return (
     <section
@@ -28,13 +32,17 @@ export function WorkoutLibrary({
       </div>
       <div className="workout-grid">
         {visibleProgrammes.map((programme) => (
-          <WorkoutCard key={programme.slug} programme={programme} />
+          <WorkoutCard
+            key={programme.slug}
+            programme={programme}
+            hasAccess={hasCourseAccess}
+          />
         ))}
       </div>
       {preview && (
-        <Link className="library-all-link" href="/treinos">
+        <CademiLink className="library-all-link" href="/treinos">
           Ver todos os treinos <span aria-hidden="true">→</span>
-        </Link>
+        </CademiLink>
       )}
     </section>
   );

@@ -63,7 +63,12 @@ export function Dashboard() {
         </figure>
       </section>
       <Sponsors />
-      <TodayWorkout user={user} programme={programme} isDemo={isDemo} />
+      <TodayWorkout
+        user={user}
+        programme={programme}
+        isDemo={isDemo}
+        hasAccess={cademiUser.hasCourseAccess}
+      />
       <WorkoutLibrary
         programmes={programmes.filter((item) => item.slug !== programme.slug)}
         preview

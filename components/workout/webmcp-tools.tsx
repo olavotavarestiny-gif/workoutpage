@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { modules } from '@/lib/config';
+import { hasCademiCourseAccess } from '@/lib/cademi-access';
 
 type ModelContext = {
   registerTool: (
@@ -19,9 +20,12 @@ type ModelContext = {
 
 export function WorkoutWebMcpTools() {
   useEffect(() => {
-    const context = (
-      document as Document & { modelContext?: ModelContext }
-    ).modelContext;
+    if (!hasCademiCourseAccess(new URLSearchParams(window.location.search))) {
+      return;
+    }
+
+    const context = (document as Document & { modelContext?: ModelContext })
+      .modelContext;
     if (!context?.registerTool) return;
 
     const lifecycle = new AbortController();

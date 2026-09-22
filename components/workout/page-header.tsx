@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { CademiLink } from './cademi-link';
 
 export function PageHeader({
   eyebrow,
@@ -12,7 +12,11 @@ export function PageHeader({
 }) {
   return (
     <header className="page-header">
-      <Link className="page-header-logo" href="/" aria-label="Página principal">
+      <CademiLink
+        className="page-header-logo"
+        href="/"
+        aria-label="Página principal"
+      >
         <Image
           unoptimized
           src="/images/samorafit-workout-logo.webp"
@@ -21,7 +25,7 @@ export function PageHeader({
           height={38}
           priority
         />
-      </Link>
+      </CademiLink>
       <span className="eyebrow">{eyebrow}</span>
       <h1>{title}</h1>
       <p>{description}</p>
