@@ -7,5 +7,5 @@ export const cademiContextKeys = [
 ] as const;
 
 export function hasCademiCourseAccess(params: URLSearchParams) {
-  return params.get('cuser_gratis') === '0' || params.has('demo');
+  return params.get('cuser_gratis') === '0';
 }

@@ -16,7 +16,7 @@ Rotas disponíveis:
 - `/progresso` — evolução do aluno;
 - `/suporte` — ajuda rápida.
 
-`/dashboard` mantém compatibilidade e redireciona para `/`.
+`/dashboard` mantém compatibilidade com incorporações antigas e preserva os parâmetros enviados pela Cademí.
 
 ## Publicação externa na Vercel
 
@@ -39,7 +39,7 @@ Personalização opcional por parâmetros de URL:
 - `cuser_id`: identificador de aluno.
 - `cuser_gratis`: `1` para aluno gratuito sem compra e `0` para aluno com compra.
 
-Estes parâmetros personalizam a apresentação; não autenticam o aluno. Sem `cuser_gratis=0`, as aulas aparecem bloqueadas e não geram links. Com a compra confirmada, a Cademí envia `cuser_gratis=0` e os botões abrem os módulos reais configurados em `lib/config.ts`. A autorização efectiva continua sob responsabilidade das Entregas e permissões da Cademí.
+Estes parâmetros personalizam a apresentação; não autenticam o aluno. Eles são lidos directamente da URL do navegador para funcionarem também na exportação estática. Sem `cuser_gratis=0`, as aulas aparecem bloqueadas e não geram links. Com a compra confirmada, a Cademí envia `cuser_gratis=0` e os botões abrem os módulos reais configurados em `lib/config.ts`. A autorização efectiva continua sob responsabilidade das Entregas e permissões da Cademí.
 
 O progresso e o tempo de retoma ainda usam os dados locais de `lib/student-data.ts`; não existe sincronização com o player ou histórico da Cademi. `/progresso?demo=new` permite verificar o estado inicial.
 

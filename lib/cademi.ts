@@ -1,11 +1,11 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { appConfig } from './config';
 import { hasCademiCourseAccess } from './cademi-access';
+import { useBrowserSearchParams } from './browser-search-params';
 
 export function useCademiUser() {
-  const params = useSearchParams();
+  const params = useBrowserSearchParams();
   const fullName = params.get('cuser_name') || appConfig.defaults.fullName;
 
   return {

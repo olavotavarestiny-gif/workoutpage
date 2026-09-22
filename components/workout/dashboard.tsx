@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
 import { useCademiUser } from '@/lib/cademi';
+import { useBrowserSearchParams } from '@/lib/browser-search-params';
 import { getStudentDemo, type StudentProfile } from '@/lib/student-data';
 import { WelcomeSection } from './welcome-section';
 import { TodayWorkout } from './today-workout';
@@ -27,7 +27,7 @@ const emptyStudent: StudentProfile = {
 };
 
 export function Dashboard() {
-  const params = useSearchParams();
+  const params = useBrowserSearchParams();
   const cademiUser = useCademiUser();
   const isDemo = params.has('demo');
   const data = getStudentDemo(params.get('demo') === 'new');

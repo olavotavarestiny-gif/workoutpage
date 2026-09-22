@@ -1,16 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import { cademiContextKeys } from '@/lib/cademi-access';
+import { useBrowserSearchParams } from '@/lib/browser-search-params';
 
-type CademiLinkProps = Omit<ComponentProps<typeof Link>, 'href'> & {
+type CademiLinkProps = Omit<ComponentPropsWithoutRef<'a'>, 'href'> & {
   href: string;
 };
 
-export function CademiLink({ href, ...props }: CademiLinkProps) {
-  const currentParams = useSearchParams();
+export function CademiLink({ href, children, ...props }: CademiLinkProps) {
+  const currentParams = useBrowserSearchParams();
   const nextParams = new URLSearchParams();
 
   for (const key of cademiContextKeys) {
@@ -24,5 +23,9 @@ export function CademiLink({ href, ...props }: CademiLinkProps) {
   const query = nextParams.toString();
   const destination = query ? `${href}?${query}` : href;
 
-  return <Link href={destination} {...props} />;
+  return (
+    <a href={destination} {...props}>
+      {children}
+    </a>
+  );
 }
