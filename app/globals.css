@@ -107,7 +107,7 @@ img {
   padding: 34px 40px;
 }
 .page-logo {
-  width: 138px;
+  width: 150px;
   height: auto;
   margin-bottom: 24px;
 }
@@ -531,80 +531,6 @@ img {
   white-space: nowrap;
 }
 
-.sponsors-section {
-  margin-top: 46px;
-  padding: 26px 0 8px;
-  border-top: 1px solid var(--border);
-}
-.sponsors-section h2 {
-  margin-bottom: 24px;
-  color: #858585;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.18em;
-  text-align: center;
-}
-.sponsor-viewport {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  touch-action: pan-x pan-y pinch-zoom;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 5%,
-    #000 95%,
-    transparent
-  );
-}
-.sponsor-viewport::-webkit-scrollbar {
-  display: none;
-}
-.sponsor-track,
-.sponsor-cycle {
-  display: flex;
-  width: max-content;
-}
-.sponsor-cycle {
-  flex: 0 0 auto;
-}
-.sponsor-logo {
-  width: 250px;
-  flex: 0 0 250px;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sponsor-logo img {
-  width: auto;
-  max-width: 175px;
-  height: auto;
-  max-height: 46px;
-  object-fit: contain;
-  opacity: 0.84;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-.sponsor-logo:hover img,
-.sponsor-logo:focus-visible img {
-  opacity: 1;
-  transform: scale(1.035);
-}
-.sponsor-logo-mfm img {
-  max-width: 126px;
-}
-.sponsor-logo-mazanga img {
-  max-width: 156px;
-  max-height: 54px;
-}
-.sponsor-logo-solve-corporate img {
-  max-width: 142px;
-  max-height: 52px;
-}
-
 .library-preview .workout-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -932,10 +858,6 @@ img {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .sponsor-logo {
-    width: 210px;
-    flex-basis: 210px;
-  }
   .progress-hero {
     gap: 30px;
   }
@@ -969,7 +891,7 @@ img {
     object-position: 54% 42%;
   }
   .page-logo {
-    width: 132px;
+    width: 140px;
     margin-bottom: 20px;
   }
   .welcome-section h1 {
@@ -1087,13 +1009,6 @@ img {
   }
   .progress-empty > a {
     justify-content: center;
-  }
-  .sponsors-section {
-    margin-top: 42px;
-  }
-  .sponsor-logo {
-    width: 165px;
-    flex: 0 0 165px;
   }
   .progress-dashboard,
   .support-layout,

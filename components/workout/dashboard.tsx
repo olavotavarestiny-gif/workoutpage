@@ -7,7 +7,6 @@ import { getStudentDemo, type StudentProfile } from '@/lib/student-data';
 import { WelcomeSection } from './welcome-section';
 import { TodayWorkout } from './today-workout';
 import { WorkoutLibrary } from './workout-library';
-import { Sponsors } from './sponsors';
 
 const emptyStudent: StudentProfile = {
   name: '',
@@ -62,7 +61,6 @@ export function Dashboard() {
           />
         </figure>
       </section>
-      <Sponsors />
       <TodayWorkout
         user={user}
         programme={programme}
