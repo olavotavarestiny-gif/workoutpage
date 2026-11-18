@@ -63,7 +63,7 @@ export default function SuportePage() {
           <a href="mailto:suporte@brunosamora.ao">
             Enviar e-mail <Mail size={17} />
           </a>
-          <span className="support-email">apoio.cliente@brunosamora.ao</span>
+          <span className="support-email">apoio.cliente@brunosamora.co.ao</span>
         </aside>
       </div>
     </main>
