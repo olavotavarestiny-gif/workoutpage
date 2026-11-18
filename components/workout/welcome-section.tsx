@@ -39,8 +39,8 @@ export function WelcomeSection({ user }: { user: StudentProfile }) {
             ? 'Olá.'
             : `${greeting}.`}
       </p>
-      <h1>Pronto para treinar?</h1>
-      <span>Treina onde quiseres. Evolui todos os dias.</span>
+      <h1>Treina quando e onde quiseres</h1>
+      <span>Leva o treino contigo</span>
     </header>
   );
 }
